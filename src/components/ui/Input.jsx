@@ -1,45 +1,48 @@
-import { useState } from 'react';
-import clsx from 'clsx';
 import { Eye, EyeOff } from 'lucide-react';
+import { useState } from 'react';
 
-export default function Input({
-  label,
-  type = 'text',
-  placeholder,
-  icon: Icon,
-  className,
-  ...props
-}) {
-  const [showPassword, setShowPassword] = useState(false);
-
+export default function Input({ label, icon: Icon, type = 'text', ...props }) {
+  const [show, setShow] = useState(false);
   const isPassword = type === 'password';
 
   return (
-    <div className="w-full space-y-2">
-      {label && <label className="text-sm text-gray-400">{label}</label>}
+    <div className="space-y-2">
+      <label className="text-[10px] tracking-[0.3em] text-primary/90">
+        {label}
+      </label>
 
       <div
-        className={clsx(
-          'flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-2 backdrop-blur-md',
-          'focus-within:border-primary focus-within:shadow-[0_0_10px_rgba(0,229,255,0.5)]',
-          className,
-        )}
+        className="
+flex items-center gap-3
+border border-primary/60
+bg-surfaceHigh
+px-4 py-3
+rounded-sm
+transition
+focus-within:border-primary
+focus-within:shadow-[0_0_12px_rgba(129,236,255,0.7)]
+"
       >
-        {Icon && <Icon size={18} className="text-gray-400" />}
+        {Icon && <Icon size={18} className="text-primary" />}
 
         <input
-          type={isPassword && !showPassword ? 'password' : 'text'}
-          placeholder={placeholder}
-          className="w-full bg-transparent outline-none text-sm text-white placeholder-gray-500"
+          type={isPassword && !show ? 'password' : 'text'}
+          className="
+            flex-1
+            bg-transparent
+            outline-none
+            text-textMain
+            placeholder:text-textSubtle
+          "
           {...props}
         />
 
         {isPassword && (
-          <button type="button" onClick={() => setShowPassword(!showPassword)}>
-            {showPassword ? (
-              <EyeOff size={18} className="text-gray-400" />
+          <button type="button" onClick={() => setShow(!show)}>
+            {show ? (
+              <EyeOff size={18} className="text-textSubtle" />
             ) : (
-              <Eye size={18} className="text-gray-400" />
+              <Eye size={18} className="text-textSubtle" />
             )}
           </button>
         )}

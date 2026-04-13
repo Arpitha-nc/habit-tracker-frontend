@@ -21,8 +21,8 @@ export default function ProgressBar({
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: `${percentage}%` }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
-          className="h-full bg-primary rounded-full shadow-[0_0_12px_rgba(0,229,255,0.8)]"
+          transition={{ duration: 0.8 }}
+          className="h-full rounded-full bg-gradient-to-r from-primary to-secondary"
         />
       </div>
     </div>
