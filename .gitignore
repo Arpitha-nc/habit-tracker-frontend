@@ -23,3 +23,10 @@ dist-ssr
 *.sln
 *.sw?
 .env
+
+# Design assets (reference images)
+design/*.png
+design/*.jpg
+design/*.jpeg
+design/*.gif
+design/*.webp
