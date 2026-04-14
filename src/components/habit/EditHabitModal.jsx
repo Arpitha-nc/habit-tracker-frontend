@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { X } from 'lucide-react';
-import { createHabit } from '../../services/habitService';
+import { updateHabit } from '../../services/habitService';
 import Button from '../ui/Button';
 import Input from '../ui/Input';
 
 const ICONS = ['🧭', '💻', '📄', '🏋️', '📚', '🎯', '🧠', '⚡', '🔥', '🌱'];
 
-export default function AddHabitModal({ onClose, onCreated }) {
-  const [form, setForm] = useState({ name: '', description: '', icon: '🎯' });
+export default function EditHabitModal({ habit, onClose, onUpdated }) {
+  const currentIcon = localStorage.getItem(`habit-icon-${habit.id}`) ?? '🎯';
+  const [form, setForm] = useState({ name: habit.title, description: habit.description ?? '', icon: currentIcon });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -19,14 +20,12 @@ export default function AddHabitModal({ onClose, onCreated }) {
     setLoading(true);
     setError('');
     try {
-      const habit = await createHabit({ name: form.name, description: form.description });
-      if (habit?.id) {
-        localStorage.setItem(`habit-icon-${habit.id}`, form.icon);
-      }
-      onCreated?.();
+      await updateHabit(habit.id, { name: form.name, description: form.description });
+      localStorage.setItem(`habit-icon-${habit.id}`, form.icon);
+      onUpdated?.();
       onClose();
     } catch {
-      setError('Failed to create habit. Try again.');
+      setError('Failed to update habit. Try again.');
     } finally {
       setLoading(false);
     }
@@ -41,9 +40,9 @@ export default function AddHabitModal({ onClose, onCreated }) {
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
-            <p className="text-[10px] tracking-widest text-textSubtle mb-1">NEW_PROTOCOL</p>
+            <p className="text-[10px] tracking-widest text-textSubtle mb-1">MODIFY_PROTOCOL</p>
             <h2 className="font-display text-2xl font-semibold">
-              ADD_<span className="text-primary">HABIT</span>
+              EDIT_<span className="text-primary">HABIT</span>
             </h2>
           </div>
           <button
@@ -111,7 +110,7 @@ export default function AddHabitModal({ onClose, onCreated }) {
               CANCEL
             </button>
             <Button type="submit" disabled={loading} className="flex-1">
-              {loading ? 'INITIALIZING...' : 'DEPLOY_PROTOCOL →'}
+              {loading ? 'UPDATING...' : 'UPDATE_PROTOCOL →'}
             </Button>
           </div>
         </form>
