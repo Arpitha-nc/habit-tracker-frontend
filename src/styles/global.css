@@ -1,7 +1,88 @@
-@import "tailwindcss";
+@config "../../tailwind.config.js";
+@import 'tailwindcss';
+
+@import '@fontsource/space-grotesk/400.css';
+@import '@fontsource/space-grotesk/500.css';
+@import '@fontsource/space-grotesk/600.css';
+@import '@fontsource/space-grotesk/700.css';
+
+@import '@fontsource/manrope/400.css';
+@import '@fontsource/manrope/500.css';
+@import '@fontsource/manrope/600.css';
+@import '@fontsource/manrope/700.css';
 
 body {
-  background-color: #0d1117;
-  color: white;
-  font-family: Inter, system-ui, sans-serif;
+  background: #0f141a;
+  color: #f1f3fc;
+  font-family: 'Manrope', sans-serif;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ambient glow */
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(
+      circle at 45% 30%,
+      rgba(129, 236, 255, 0.12),
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 75% 60%,
+      rgba(210, 119, 255, 0.1),
+      transparent 50%
+    ),
+    radial-gradient(circle at 20% 70%, rgba(47, 248, 1, 0.08), transparent 40%);
+  pointer-events: none;
+}
+
+/* HUD frame corners */
+
+.hud-frame {
+  position: relative;
+}
+
+.hud-frame::before,
+.hud-frame::after {
+  content: '';
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  border: 2px solid rgba(129, 236, 255, 0.6);
+}
+
+.hud-frame::before {
+  top: -8px;
+  left: -8px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.hud-frame::after {
+  bottom: -8px;
+  right: -8px;
+  border-left: none;
+  border-top: none;
+}
+.scanline {
+  position: fixed;
+  width: 100%;
+  height: 2px;
+  background: rgba(129, 236, 255, 0.25);
+  animation: scan 6s linear infinite;
+}
+
+@keyframes scan {
+  from {
+    top: 0;
+  }
+  to {
+    top: 100%;
+  }
 }
